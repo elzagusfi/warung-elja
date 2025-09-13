@@ -50,17 +50,20 @@
                 </div>
             </div>
             <ul class="list-unstyled components mb-5">
-                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">
-                    <a asp-controller="Home" asp-action="Index"><i class="bi bi-house-door me-2"></i> Dashboard</a>
-                </li>
-                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ProductList" ? "active" : "")">
-                    <a asp-controller="ProductList" asp-action="Index"><i class="bi bi-box-seam me-2"></i> Product List</a>
-                </li>
+                @if (User.IsInRole("Admin") || User.IsInRole("IT"))
+                {
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">
+                        <a asp-controller="Home" asp-action="Index"><i class="bi bi-house-door me-2"></i> Dashboard</a>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ProductList" ? "active" : "")">
+                        <a asp-controller="ProductList" asp-action="Index"><i class="bi bi-box-seam me-2"></i> Product List</a>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "SalesReport" ? "active" : "")">
+                        <a asp-controller="SalesReport" asp-action="Index"><i class="bi bi-graph-up me-2"></i> Sales Report</a>
+                    </li>
+                }
                 <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Cashier" ? "active" : "")">
                     <a asp-controller="Cashier" asp-action="Index"><i class="bi bi-cash-stack me-2"></i> Cashier</a>
-                </li>
-                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "SalesReport" ? "active" : "")">
-                    <a asp-controller="SalesReport" asp-action="Index"><i class="bi bi-graph-up me-2"></i> Sales Report</a>
                 </li>
             </ul>
         </nav>

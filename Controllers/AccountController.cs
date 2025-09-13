@@ -62,7 +62,15 @@ namespace WarungElja.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        // Redirect based on user role
+                        if (user.Role == "Kasir")
+                        {
+                            return RedirectToAction("Index", "Cashier");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                 }
                 

@@ -94,9 +94,9 @@
                                 {
                                     <tr>
                                         <td>@sale.ProductDetails?.ProductName</td>
-                                        <td>@sale.Price.ToString("C")</td>
+                                        <td>Rp @sale.Price.ToString("N0")</td>
                                         <td>@sale.QuantitySold</td>
-                                        <td>@((sale.Price * sale.QuantitySold).ToString("C"))</td>
+                                        <td>Rp @((sale.Price * sale.QuantitySold).ToString("N0"))</td>
                                         <td>@sale.SaleDate.ToString("g")</td>
                                     </tr>
                                 }

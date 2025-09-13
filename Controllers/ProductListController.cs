@@ -6,7 +6,7 @@ using WarungElja.Models;
 
 namespace WarungElja.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,IT")]
     public class ProductListController : Controller
     {
         private readonly AppDbContext _context;

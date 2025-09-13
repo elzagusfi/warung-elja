@@ -39,7 +39,7 @@
                                         <h5 class="card-title text-center">@item.ProductName</h5>
                                         <div class="mt-auto">
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <span class="fw-bold text-primary">@item.Price.ToString("C")</span>
+                                                <span class="fw-bold text-primary">Rp @item.Price.ToString("N0")</span>
                                                 @{
                                                     var stock = item.ProductStocks.Any() ? item.ProductStocks.First().Stock : 0;
                                                 }
@@ -65,9 +65,7 @@
                         </div>
                         <h4 class="text-muted">No products available for sale</h4>
                         <p class="mb-4">There are no active products with stock available.</p>
-                        <a asp-controller="ProductList" asp-action="Index" class="btn btn-primary">
-                            <i class="bi bi-box-seam"></i> Manage Products
-                        </a>
+                        <p class="mb-0 text-muted">Please contact administrator to manage products.</p>
                     </div>
                 }
             </div>
