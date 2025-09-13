@@ -1,7 +1,45 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="mt-4">Welcome to Warung Elja Dashboard</h1>
+            <p class="lead">Hello, @User.Identity.Name! You have successfully logged in.</p>
+            <hr class="my-4">
+        </div>
+    </div>
     
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Product Management</h5>
+                    <p class="card-text">Manage your product inventory, add new products, and update stock levels.</p>
+                    <a href="@Url.Action("Index", "ProductList")" class="btn btn-primary">Go to Products</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Cashier System</h5>
+                    <p class="card-text">Process sales transactions and manage customer purchases.</p>
+                    <a href="@Url.Action("Index", "Cashier")" class="btn btn-success">Go to Cashier</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Sales Reports</h5>
+                    <p class="card-text">View detailed sales reports and analyze your business performance.</p>
+                    <a href="@Url.Action("Index", "SalesReport")" class="btn btn-info">View Reports</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

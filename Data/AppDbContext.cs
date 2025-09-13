@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WarungElja.Models;
+using WarungElja.Utilities;
 
 namespace WarungElja.Data
 {
@@ -13,6 +14,7 @@ namespace WarungElja.Data
         public DbSet<ProductDetails> ProductDetails { get; set; }
         public DbSet<ProductStock> ProductStock { get; set; }
         public DbSet<SalesRecord> SalesRecords { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +31,17 @@ namespace WarungElja.Data
                     .HasForeignKey(d => d.IdProductDetails)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
+
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    Id = 1,
+                    Username = "admin",
+                    PasswordHash = PasswordHasher.HashPassword("password"), // "password" with proper hashing
+                    Name = "Administrator",
+                    Role = "Admin"
+                }
+            );
 
             base.OnModelCreating(modelBuilder);
         }

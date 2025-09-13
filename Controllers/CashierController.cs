@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using WarungElja.Data;
 using WarungElja.Models;
 
 namespace WarungElja.Controllers
 {
+    [Authorize]
     public class CashierController : Controller
     {
         private readonly AppDbContext _context;
@@ -65,7 +67,6 @@ namespace WarungElja.Controllers
                     {
                         productStock.Stock -= viewModel.SellQuantity;
                         
-                        // Record the sale in SalesRecords
                         var salesRecord = new SalesRecord
                         {
                             ProductDetailsId = id,

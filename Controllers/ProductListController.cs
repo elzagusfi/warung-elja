@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using WarungElja.Data;
 using WarungElja.Models;
 
 namespace WarungElja.Controllers
 {
+    [Authorize]
     public class ProductListController : Controller
     {
         private readonly AppDbContext _context;
