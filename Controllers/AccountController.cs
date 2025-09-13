@@ -35,8 +35,8 @@ namespace WarungElja.Controllers
             if (ModelState.IsValid)
             {
                 var user = _context.Users.FirstOrDefault(u => u.Username == model.Username);
-
-                if (user != null && PasswordHasher.VerifyPassword(model.Password, user.PasswordHash))
+                
+                if (user != null && user.IsActive && PasswordHasher.VerifyPassword(model.Password, user.PasswordHash))
                 {
                     var claims = new List<Claim>
                     {

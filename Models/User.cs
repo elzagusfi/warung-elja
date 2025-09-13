@@ -18,9 +18,13 @@ namespace WarungElja.Models
         [StringLength(100)]
         public string Name { get; set; } = string.Empty;
         
-        [StringLength(100)]
+        [StringLength(50)]
         public string? Role { get; set; }
         
+        public bool IsActive { get; set; } = true;
+        
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }

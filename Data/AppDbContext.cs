@@ -39,7 +39,10 @@ namespace WarungElja.Data
                     Username = "admin",
                     PasswordHash = PasswordHasher.HashPassword("password"), // "password" with proper hashing
                     Name = "Administrator",
-                    Role = "Admin"
+                    Role = "Admin",
+                    IsActive = true,
+                    CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                    UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                 }
             );
 
