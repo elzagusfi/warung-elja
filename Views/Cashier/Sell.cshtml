@@ -4,37 +4,105 @@
     ViewData["Title"] = "Sell Product";
 }
 
-<h1>Sell Product</h1>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Sell Product</h1>
+</div>
 
-<h4>Product: @Model.ProductName</h4>
-<hr />
 <div class="row">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Product: @Model.ProductName</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="Sell">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="IdProductDetails" />
+                    <input type="hidden" asp-for="Price" />
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Current Stock</label>
+                            <input asp-for="CurrentStock" class="form-control" readonly />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Price" class="form-label">Price per Unit</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input value="@Model.Price" class="form-control" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label asp-for="SellQuantity" class="form-label"></label>
+                        <input asp-for="SellQuantity" class="form-control" placeholder="Enter quantity to sell" />
+                        <span asp-validation-for="SellQuantity" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="form-group mb-4">
+                        <label class="form-label">Total Amount</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input id="totalAmount" class="form-control" readonly />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="bi bi-cash"></i> Process Sale
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary w-100 mt-2">
+                            <i class="bi bi-arrow-left"></i> Back to Products
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
     <div class="col-md-4">
-        <form asp-action="Sell">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdProductDetails" />
-            <div class="form-group mb-3">
-                <label class="control-label">Current Stock</label>
-                <input asp-for="CurrentStock" class="form-control" readonly />
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Sale Summary</h5>
             </div>
-            <div class="form-group mb-3">
-                <label asp-for="SellQuantity" class="control-label"></label>
-                <input asp-for="SellQuantity" class="form-control" />
-                <span asp-validation-for="SellQuantity" class="text-danger"></span>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <div class="icon-circle bg-success text-white mx-auto mb-3">
+                        <i class="bi bi-receipt" style="font-size: 2rem;"></i>
+                    </div>
+                    <h4>Sale Details</h4>
+                </div>
+                
+                <div class="border rounded p-3 mb-3">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Product:</span>
+                        <strong>@Model.ProductName</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Price per unit:</span>
+                        <strong>@Model.Price.ToString("C")</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Available stock:</span>
+                        <strong>@Model.CurrentStock</strong>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <span>Quantity:</span>
+                        <strong id="summaryQuantity">0</strong>
+                    </div>
+                    <div class="d-flex justify-content-between fw-bold">
+                        <span>Total:</span>
+                        <strong id="summaryTotal">$0.00</strong>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> After processing the sale, the stock will be automatically updated.
+                </div>
             </div>
-            <div class="form-group mb-3">
-                <label class="control-label">Price per Unit</label>
-                <input asp-for="Price" class="form-control" readonly />
-            </div>
-            <div class="form-group mb-3">
-                <label class="control-label">Total</label>
-                <input id="totalAmount" class="form-control" readonly />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Sell" class="btn btn-success" />
-                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
@@ -45,18 +113,22 @@
             const quantityInput = document.getElementById('SellQuantity');
             const priceInput = document.getElementById('Price');
             const totalInput = document.getElementById('totalAmount');
+            const summaryQuantity = document.getElementById('summaryQuantity');
+            const summaryTotal = document.getElementById('summaryTotal');
 
             function calculateTotal() {
                 const quantity = parseFloat(quantityInput.value) || 0;
                 const price = parseFloat(priceInput.value) || 0;
                 const total = quantity * price;
+                
                 totalInput.value = total.toFixed(2);
+                summaryQuantity.textContent = quantity;
+                summaryTotal.textContent = ' + total.toFixed(2);
             }
 
             quantityInput.addEventListener('input', calculateTotal);
             priceInput.addEventListener('input', calculateTotal);
             
-            // Calculate initial total
             calculateTotal();
         });
     </script>

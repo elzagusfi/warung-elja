@@ -4,29 +4,40 @@
     ViewData["Title"] = "Update Stock";
 }
 
-<h1>Update Stock</h1>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Update Stock</h1>
+</div>
 
-<h4>Product: @Model.ProductName</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="StockUpdate">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdProductDetails" />
-            <div class="form-group mb-3">
-                <label class="control-label">Current Stock</label>
-                <input asp-for="CurrentStock" class="form-control" readonly />
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Product: @Model.ProductName</h5>
             </div>
-            <div class="form-group mb-3">
-                <label asp-for="AddStock" class="control-label"></label>
-                <input asp-for="AddStock" class="form-control" />
-                <span asp-validation-for="AddStock" class="text-danger"></span>
+            <div class="card-body">
+                <form asp-action="StockUpdate">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="IdProductDetails" />
+                    <div class="form-group mb-3">
+                        <label class="form-label">Current Stock</label>
+                        <input asp-for="CurrentStock" class="form-control" readonly />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="AddStock" class="form-label"></label>
+                        <input asp-for="AddStock" class="form-control" placeholder="Enter quantity to add" />
+                        <span asp-validation-for="AddStock" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-plus-circle"></i> Add Stock
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Add Stock" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 

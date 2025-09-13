@@ -2,41 +2,145 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1 class="mt-4">Welcome to Warung Elja Dashboard</h1>
-            <hr class="my-4">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Dashboard</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card border-primary">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title">Total Products</h5>
+                        <h2 class="text-primary">@ViewBag.TotalProducts</h2>
+                    </div>
+                    <div class="icon-circle bg-primary text-white">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Product Management</h5>
-                    <p class="card-text">Manage your product inventory, add new products, and update stock levels.</p>
-                    <a href="@Url.Action("Index", "ProductList")" class="btn btn-primary">Go to Products</a>
+    <div class="col-md-3">
+        <div class="card border-success">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title">Active Products</h5>
+                        <h2 class="text-success">@ViewBag.ActiveProducts</h2>
+                    </div>
+                    <div class="icon-circle bg-success text-white">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Cashier System</h5>
-                    <p class="card-text">Process sales transactions and manage customer purchases.</p>
-                    <a href="@Url.Action("Index", "Cashier")" class="btn btn-success">Go to Cashier</a>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-info">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title">Total Stock</h5>
+                        <h2 class="text-info">@ViewBag.TotalStock</h2>
+                    </div>
+                    <div class="icon-circle bg-info text-white">
+                        <i class="bi bi-inboxes"></i>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Sales Reports</h5>
-                    <p class="card-text">View detailed sales reports and analyze your business performance.</p>
-                    <a href="@Url.Action("Index", "SalesReport")" class="btn btn-info">View Reports</a>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-warning">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title">Today's Sales</h5>
+                        <h2 class="text-warning">@ViewBag.TodaySales</h2>
+                    </div>
+                    <div class="icon-circle bg-warning text-white">
+                        <i class="bi bi-cash"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Recent Sales</h5>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.RecentSales != null && ((List<WarungElja.Models.SalesRecord>)ViewBag.RecentSales).Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var sale in (List<WarungElja.Models.SalesRecord>)ViewBag.RecentSales)
+                                {
+                                    <tr>
+                                        <td>@sale.ProductDetails?.ProductName</td>
+                                        <td>@sale.Price.ToString("C")</td>
+                                        <td>@sale.QuantitySold</td>
+                                        <td>@((sale.Price * sale.QuantitySold).ToString("C"))</td>
+                                        <td>@sale.SaleDate.ToString("g")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No recent sales found.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <a asp-controller="ProductList" asp-action="Create" class="btn btn-primary w-100">
+                            <i class="bi bi-plus-circle"></i> Add New Product
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a asp-controller="ProductList" asp-action="Index" class="btn btn-secondary w-100">
+                            <i class="bi bi-list"></i> View All Products
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a asp-controller="Cashier" asp-action="Index" class="btn btn-success w-100">
+                            <i class="bi bi-cash-stack"></i> Open Cashier
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a asp-controller="SalesReport" asp-action="Index" class="btn btn-info w-100">
+                            <i class="bi bi-graph-up"></i> Sales Report
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

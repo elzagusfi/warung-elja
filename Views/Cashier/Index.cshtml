@@ -1,50 +1,123 @@
 @model IEnumerable<WarungElja.Models.ProductDetails>
 
 @{
-    ViewData["Title"] = "Cashier - Product List";
+    ViewData["Title"] = "Cashier";
 }
 
-<h1>Cashier - Products Available</h1>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Cashier</h1>
+</div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                Available Stock
-            </th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @if (item.ProductStocks.Any())
-                    {
-                        @item.ProductStocks.First().Stock
-                    }
-                    else
-                    {
-                        <span>0</span>
-                    }
-                </td>
-                <td>
-                    <a asp-action="Sell" asp-route-id="@item.IdProductDetails" class="btn btn-sm btn-outline-success">Sell</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Available Products</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Any())
+                {
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <div class="card h-100 product-card">
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="text-center mb-2">
+                                            <div class="icon-circle bg-primary text-white mx-auto">
+                                                <i class="bi bi-box-seam"></i>
+                                            </div>
+                                        </div>
+                                        <h5 class="card-title text-center">@item.ProductName</h5>
+                                        <div class="mt-auto">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="fw-bold text-primary">@item.Price.ToString("C")</span>
+                                                @{
+                                                    var stock = item.ProductStocks.Any() ? item.ProductStocks.First().Stock : 0;
+                                                }
+                                                <span class="badge @(stock > 10 ? "bg-success" : stock > 0 ? "bg-warning text-dark" : "bg-danger")">
+                                                    <i class="bi bi-archive"></i> @stock
+                                                </span>
+                                            </div>
+                                            <a asp-action="Sell" asp-route-id="@item.IdProductDetails" class="btn btn-primary w-100 mt-2">
+                                                <i class="bi bi-cash"></i> Sell
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                        <div class="icon-circle bg-light text-muted mx-auto mb-3">
+                            <i class="bi bi-box-seam" style="font-size: 2rem;"></i>
+                        </div>
+                        <h4 class="text-muted">No products available for sale</h4>
+                        <p class="mb-4">There are no active products with stock available.</p>
+                        <a asp-controller="ProductList" asp-action="Index" class="btn btn-primary">
+                            <i class="bi bi-box-seam"></i> Manage Products
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Sales Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <div class="icon-circle bg-success text-white mx-auto mb-3">
+                        <i class="bi bi-cash-stack" style="font-size: 2rem;"></i>
+                    </div>
+                    <h4>Sales Terminal</h4>
+                    <p class="text-muted">Select a product to process a sale</p>
+                </div>
+                
+                <div class="border rounded p-3 mb-3">
+                    <h6><i class="bi bi-info-circle"></i> How to use</h6>
+                    <ol class="small">
+                        <li>Select a product from the list</li>
+                        <li>Enter the quantity to sell</li>
+                        <li>Confirm the sale</li>
+                        <li>Stock will be automatically updated</li>
+                    </ol>
+                </div>
+                
+                <div class="border rounded p-3">
+                    <h6><i class="bi bi-lightning"></i> Quick Tips</h6>
+                    <ul class="small">
+                        <li>Products with low stock are highlighted</li>
+                        <li>Deactivated products are not shown</li>
+                        <li>Sales are recorded automatically</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .product-card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+</style>
