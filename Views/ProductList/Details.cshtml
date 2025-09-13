@@ -1,0 +1,61 @@
+@model WarungElja.Models.ProductDetails
+
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<h1>Product Details</h1>
+
+<div>
+    <h4>ProductDetails</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.Status == 1)
+            {
+                <span class="badge bg-success">Active</span>
+            }
+            else
+            {
+                <span class="badge bg-secondary">Inactive</span>
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            Stock
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.ProductStocks.Any())
+            {
+                <p>Stock: @Model.ProductStocks.First().Stock</p>
+            }
+            else
+            {
+                <p>No stock information available</p>
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdProductDetails" class="btn btn-primary">Edit</a>
+    @if (Model.Status == 1)
+    {
+        <a asp-action="Deactivate" asp-route-id="@Model.IdProductDetails" class="btn btn-warning">Deactivate</a>
+    }
+    <a asp-action="StockUpdate" asp-route-id="@Model.IdProductDetails" class="btn btn-info">Update Stock</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

@@ -1,0 +1,50 @@
+@model IEnumerable<WarungElja.Models.ProductDetails>
+
+@{
+    ViewData["Title"] = "Cashier - Product List";
+}
+
+<h1>Cashier - Products Available</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                Available Stock
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @if (item.ProductStocks.Any())
+                    {
+                        @item.ProductStocks.First().Stock
+                    }
+                    else
+                    {
+                        <span>0</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Sell" asp-route-id="@item.IdProductDetails" class="btn btn-sm btn-outline-success">Sell</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
