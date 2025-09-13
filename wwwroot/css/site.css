@@ -168,14 +168,16 @@ footer.footer {
   background-repeat: no-repeat;
   background-position: center center;
   border: 3px solid #fff;
-  background-color: #6c757d;
+  background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  text-indent: -9999px;
 }
 
 .user-logo .img:before {
-  content: "\f1b2";
+  content: "";
   font-family: "bootstrap-icons";
   font-size: 2rem;
   color: rgba(255, 255, 255, 0.7);

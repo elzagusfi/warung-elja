@@ -274,24 +274,27 @@ namespace WarungElja.Controllers
         public async Task<IActionResult> DeactivateConfirmed(int id)
         {
             var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            if (user == null)
             {
-                if (user.Role == "Admin")
-                {
-                    var adminCount = await _context.Users.CountAsync(u => u.Role == "Admin" && u.IsActive);
-                    if (adminCount <= 1)
-                    {
-                        TempData["ErrorMessage"] = "Cannot deactivate the last admin user.";
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
-                
-                user.IsActive = false;
-                user.UpdatedAt = DateTime.UtcNow;
-                
-                _context.Users.Update(user);
+                TempData["ErrorMessage"] = "User not found.";
+                return RedirectToAction(nameof(Index));
             }
-
+            
+            if (user.Role == "Admin")
+            {
+                var adminCount = await _context.Users.CountAsync(u => u.Role == "Admin" && u.IsActive);
+                if (adminCount <= 1)
+                {
+                    TempData["ErrorMessage"] = "Cannot deactivate the last admin user.";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            
+            user.IsActive = false;
+            user.UpdatedAt = DateTime.UtcNow;
+            
+            _context.Users.Update(user);
+            
             await _context.SaveChangesAsync();
             TempData["SuccessMessage"] = "User deactivated successfully.";
             return RedirectToAction(nameof(Index));
