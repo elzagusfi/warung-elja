@@ -26,7 +26,7 @@
                         <label asp-for="Price" class="form-label"></label>
                         <div class="input-group">
                             <span class="input-group-text">Rp</span>
-                            <input asp-for="Price" class="form-control" placeholder="0.00" />
+                            <input asp-for="Price" class="form-control" placeholder="0,00" data-val-number="The field Price must be a number." />
                         </div>
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
@@ -46,4 +46,58 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const priceInput = document.getElementById('Price');
+            
+            // Format number to Rupiah format
+            function formatRupiah(angka) {
+                let number_string = angka.replace(/[^,\d]/g, '').toString(),
+                    split = number_string.split(','),
+                    sisa = split[0].length % 3,
+                    rupiah = split[0].substr(0, sisa),
+                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                
+                // Tambahkan titik jika ribuan
+                if (ribuan) {
+                    let separator = sisa ? '.' : '';
+                    rupiah += separator + ribuan.join('.');
+                }
+                
+                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                return rupiah;
+            }
+            
+            // Parse formatted Rupiah to plain number
+            function parseRupiah(rupiah) {
+                return rupiah.replace(/\./g, '').replace(',', '.');
+            }
+            
+            priceInput.addEventListener('input', function(e) {
+                // Simpan posisi kursor
+                let start = e.target.selectionStart;
+                let end = e.target.selectionEnd;
+                
+                // Hapus format sebelumnya
+                let value = e.target.value.replace(/\./g, '').replace(',', '.');
+                
+                // Format ulang
+                if (value) {
+                    e.target.value = formatRupiah(value);
+                }
+                
+                // Pertahankan posisi kursor
+                e.target.setSelectionRange(start, end);
+            });
+            
+            // Sebelum form disubmit, ubah ke format yang bisa dibaca server
+            const form = priceInput.closest('form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    let value = priceInput.value.replace(/\./g, '').replace(',', '.');
+                    priceInput.value = value;
+                });
+            }
+        });
+    </script>
 }

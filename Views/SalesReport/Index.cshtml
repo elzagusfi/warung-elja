@@ -34,13 +34,13 @@
                     @Html.DisplayFor(modelItem => item.ProductDetails.ProductName)
                 </td>
                 <td>
-                    Rp @Html.DisplayFor(modelItem => item.Price)
+                    Rp @item.Price.ToString("N2", new System.Globalization.CultureInfo("id-ID"))
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.QuantitySold)
                 </td>
                 <td>
-                    Rp @((item.Price * item.QuantitySold).ToString("N0"))
+                    Rp @((item.Price * item.QuantitySold).ToString("N0", new System.Globalization.CultureInfo("id-ID")))
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.SaleDate)

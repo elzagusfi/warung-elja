@@ -47,7 +47,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="fw-bold">Rp @Html.DisplayFor(modelItem => item.Price)</span>
+                                    <span class="fw-bold">Rp @item.Price.ToString("N2", new System.Globalization.CultureInfo("id-ID"))</span>
                                 </td>
                                 <td>
                                     @if (item.Status == 1)

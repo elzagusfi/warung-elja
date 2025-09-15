@@ -28,22 +28,22 @@
                         <div class="col-md-6">
                             <label asp-for="Price" class="form-label">Price per Unit</label>
                             <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input value="@Model.Price" class="form-control" readonly />
+                                <span class="input-group-text">Rp</span>
+                                <input id="Price" value="@Model.Price.ToString("N2", new System.Globalization.CultureInfo("id-ID"))" class="form-control" readonly />
                             </div>
                         </div>
                     </div>
                     
                     <div class="form-group mb-3">
                         <label asp-for="SellQuantity" class="form-label"></label>
-                        <input asp-for="SellQuantity" class="form-control" placeholder="Enter quantity to sell" />
+                        <input asp-for="SellQuantity" class="form-control" value="0" min="0" />
                         <span asp-validation-for="SellQuantity" class="text-danger"></span>
                     </div>
                     
                     <div class="form-group mb-4">
                         <label class="form-label">Total Amount</label>
                         <div class="input-group">
-                            <span class="input-group-text">$</span>
+                            <span class="input-group-text">Rp</span>
                             <input id="totalAmount" class="form-control" readonly />
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span>Price per unit:</span>
-                        <strong>Rp @Model.Price.ToString("N0")</strong>
+                        <strong>Rp @Model.Price.ToString("N2", new System.Globalization.CultureInfo("id-ID"))</strong>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span>Available stock:</span>
@@ -89,13 +89,13 @@
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between">
-                        <span>Quantity:</span>
-                        <strong id="summaryQuantity">0</strong>
-                    </div>
-                    <div class="d-flex justify-content-between fw-bold">
-                        <span>Total:</span>
-                        <strong id="summaryTotal">$0.00</strong>
-                    </div>
+                    <span>Quantity:</span>
+                    <strong id="summaryQuantity">0</strong>
+                </div>
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>Total:</span>
+                    <strong id="summaryTotal">Rp 0,00</strong>
+                </div>
                 </div>
                 
                 <div class="alert alert-info">
@@ -116,20 +116,60 @@
             const summaryQuantity = document.getElementById('summaryQuantity');
             const summaryTotal = document.getElementById('summaryTotal');
 
-            function calculateTotal() {
-                const quantity = parseFloat(quantityInput.value) || 0;
-                const price = parseFloat(priceInput.value) || 0;
-                const total = quantity * price;
-                
-                totalInput.value = total.toFixed(2);
-                summaryQuantity.textContent = quantity;
-                summaryTotal.textContent = ' + total.toFixed(2);
+            // Extract numeric value from formatted price
+            function parsePrice(priceText) {
+                // Remove 'Rp' and spaces, then replace decimal separator
+                const cleanText = priceText.replace(/[^\d,]/g, '').replace(',', '.');
+                return parseFloat(cleanText) || 0;
             }
 
-            quantityInput.addEventListener('input', calculateTotal);
-            priceInput.addEventListener('input', calculateTotal);
-            
-            calculateTotal();
+            // Get the price as a number
+            const priceValue = parsePrice(priceInput.value);
+
+            // Initialize with default values
+            quantityInput.value = '0';
+            totalInput.value = '0,00';
+            summaryQuantity.textContent = '0';
+            summaryTotal.textContent = 'Rp 0,00';
+
+            function calculateTotal() {
+                const quantity = parseInt(quantityInput.value) || 0;
+                const total = quantity * priceValue;
+                
+                // Format as Rupiah with thousands separator using Indonesian format
+                const formattedTotal = total.toLocaleString('id-ID', { 
+                    minimumFractionDigits: 2, 
+                    maximumFractionDigits: 2 
+                });
+                
+                totalInput.value = formattedTotal;
+                summaryQuantity.textContent = quantity.toString();
+                summaryTotal.textContent = 'Rp ' + formattedTotal;
+            }
+
+            // Handle input changes
+            quantityInput.addEventListener('input', function (e) {
+                // Allow only numbers
+                let value = e.target.value.replace(/[^\d]/g, '');
+                // Prevent leading zeros (except for the single zero)
+                if (value.length > 1 && value[0] === '0') {
+                    value = value.replace(/^0+/, '');
+                }
+                // If empty, set to 0
+                if (value === '') {
+                    value = '0';
+                }
+                e.target.value = value;
+                calculateTotal();
+            });
+
+            // Handle blur to ensure value is never empty
+            quantityInput.addEventListener('blur', function (e) {
+                if (e.target.value === '') {
+                    e.target.value = '0';
+                    calculateTotal();
+                }
+            });
         });
     </script>
 }
