@@ -9,7 +9,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-8 col-lg-6">
+    <div class="col-md-8">
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title mb-0">Product: @Model.ProductName</h5>
@@ -89,19 +89,62 @@
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between">
-                    <span>Quantity:</span>
-                    <strong id="summaryQuantity">0</strong>
-                </div>
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>Total:</span>
-                    <strong id="summaryTotal">Rp 0,00</strong>
-                </div>
+                        <span>Quantity:</span>
+                        <strong id="summaryQuantity">0</strong>
+                    </div>
+                    <div class="d-flex justify-content-between fw-bold">
+                        <span>Total:</span>
+                        <strong id="summaryTotal">Rp 0,00</strong>
+                    </div>
                 </div>
                 
                 <div class="alert alert-info">
                     <i class="bi bi-info-circle"></i> After processing the sale, the stock will be automatically updated.
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Sales Information Button -->
+<div class="floating-sales-info">
+    <button class="btn btn-success btn-lg rounded-circle shadow" type="button" data-bs-toggle="offcanvas" data-bs-target="#salesInfoOffcanvas" aria-controls="salesInfoOffcanvas">
+        <i class="bi bi-info-circle"></i>
+    </button>
+</div>
+
+<!-- Sales Information Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="salesInfoOffcanvas" aria-labelledby="salesInfoOffcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="salesInfoOffcanvasLabel">Sales Information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="text-center mb-4">
+            <div class="icon-circle bg-success text-white mx-auto mb-3">
+                <i class="bi bi-cash-stack" style="font-size: 2rem;"></i>
+            </div>
+            <h4>Sales Terminal</h4>
+            <p class="text-muted">Select a product to process a sale</p>
+        </div>
+        
+        <div class="border rounded p-3 mb-3">
+            <h6><i class="bi bi-info-circle"></i> How to use</h6>
+            <ol class="small">
+                <li>Select a product from the list</li>
+                <li>Enter the quantity to sell</li>
+                <li>Confirm the sale</li>
+                <li>Stock will be automatically updated</li>
+            </ol>
+        </div>
+        
+        <div class="border rounded p-3">
+            <h6><i class="bi bi-lightning"></i> Quick Tips</h6>
+            <ul class="small">
+                <li>Products with low stock are highlighted</li>
+                <li>Deactivated products are not shown</li>
+                <li>Sales are recorded automatically</li>
+            </ul>
         </div>
     </div>
 </div>
@@ -172,4 +215,29 @@
             });
         });
     </script>
-}
+    
+    <style>
+        .floating-sales-info {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1050;
+        }
+        
+        .floating-sales-info .btn {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .floating-sales-info .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        }
+        
+        }

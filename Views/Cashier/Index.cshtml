@@ -17,7 +17,7 @@
 }
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title mb-0">Available Products</h5>
@@ -71,51 +71,51 @@
             </div>
         </div>
     </div>
+</div>
 
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Sales Information</h5>
+<!-- Floating Sales Information Button -->
+<div class="floating-sales-info">
+    <button class="btn btn-success btn-lg rounded-circle shadow" type="button" data-bs-toggle="offcanvas" data-bs-target="#salesInfoOffcanvas" aria-controls="salesInfoOffcanvas">
+        <i class="bi bi-info-circle"></i>
+    </button>
+</div>
+
+<!-- Sales Information Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="salesInfoOffcanvas" aria-labelledby="salesInfoOffcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="salesInfoOffcanvasLabel">Sales Information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="text-center mb-4">
+            <div class="icon-circle bg-success text-white mx-auto mb-3">
+                <i class="bi bi-cash-stack" style="font-size: 2rem;"></i>
             </div>
-            <div class="card-body">
-                <div class="text-center mb-4">
-                    <div class="icon-circle bg-success text-white mx-auto mb-3">
-                        <i class="bi bi-cash-stack" style="font-size: 2rem;"></i>
-                    </div>
-                    <h4>Sales Terminal</h4>
-                    <p class="text-muted">Select a product to process a sale</p>
-                </div>
-                
-                <div class="border rounded p-3 mb-3">
-                    <h6><i class="bi bi-info-circle"></i> How to use</h6>
-                    <ol class="small">
-                        <li>Select a product from the list</li>
-                        <li>Enter the quantity to sell</li>
-                        <li>Confirm the sale</li>
-                        <li>Stock will be automatically updated</li>
-                    </ol>
-                </div>
-                
-                <div class="border rounded p-3">
-                    <h6><i class="bi bi-lightning"></i> Quick Tips</h6>
-                    <ul class="small">
-                        <li>Products with low stock are highlighted</li>
-                        <li>Deactivated products are not shown</li>
-                        <li>Sales are recorded automatically</li>
-                    </ul>
-                </div>
-            </div>
+            <h4>Sales Terminal</h4>
+            <p class="text-muted">Select a product to process a sale</p>
+        </div>
+        
+        <div class="border rounded p-3 mb-3">
+            <h6><i class="bi bi-info-circle"></i> How to use</h6>
+            <ol class="small">
+                <li>Select a product from the list</li>
+                <li>Enter the quantity to sell</li>
+                <li>Confirm the sale</li>
+                <li>Stock will be automatically updated</li>
+            </ol>
+        </div>
+        
+        <div class="border rounded p-3">
+            <h6><i class="bi bi-lightning"></i> Quick Tips</h6>
+            <ul class="small">
+                <li>Products with low stock are highlighted</li>
+                <li>Deactivated products are not shown</li>
+                <li>Sales are recorded automatically</li>
+            </ul>
         </div>
     </div>
 </div>
 
-<style>
-    .product-card {
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
+
     
-    .product-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    }
-</style>
+    
